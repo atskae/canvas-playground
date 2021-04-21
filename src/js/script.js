@@ -21,9 +21,49 @@ function draw() {
         const ctx = canvas.getContext("2d");
         console.log(ctx);
 
-        // Apply effects to context
-        ctx.lineWidth = 20;
-        ctx.strokeRect(100, 100, 100, 100);
+        // Setup event listeners
+        let allowDrawing = false;
+
+        function turnOnDraw(event) {
+            allowDrawing = true;
+            console.log('allowDrawing=' + allowDrawing)
+        }
+
+        function turnOffDraw(event) {
+            allowDrawing = false;
+            console.log('allowDrawing=' + allowDrawing)
+        }
+
+        function startDraw(event) {
+            // Draw lines in the canvas!
+            if(!allowDrawing) {
+                return;
+            }
+           
+            // Current position of mouse
+            currX = event.screenX;
+            currY = event.screenY;
+            prevX = currX - event.movementX;
+            prevY = currY - event.movementY;
+            console.log('Position: ( ' + currX + ',' + currY + ')');
+            console.log('PrevPosition: ( ' + prevX + ',' + prevY + ')');
+            
+            // Draw a line from previous position
+            // to the current position
+            ctx.beginPath();
+            // Set starting point
+            ctx.moveTo(prevX, prevY);
+            // Set ending point
+            ctx.lineTo(currX, currY);
+            // Connect and draw line 
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        canvas.addEventListener('mousedown', turnOnDraw);
+        canvas.addEventListener('mouseup', turnOffDraw);
+        canvas.addEventListener('mousemove', startDraw);
+
     } else {
         msg = document.getElementById("message");
         msg.innerHTML = "Canvas is not supported :(";
