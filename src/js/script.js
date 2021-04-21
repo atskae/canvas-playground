@@ -20,6 +20,11 @@ function draw() {
         // Select the 2D context
         const ctx = canvas.getContext("2d");
         console.log(ctx);
+        
+        // Spacing relative to the parent viewport
+        const canvasBounds = canvas.getBoundingClientRect();
+        console.log('Canvas bounds');
+        console.log(canvasBounds);
 
         // Setup event listeners
         let allowDrawing = false;
@@ -39,10 +44,10 @@ function draw() {
             if(!allowDrawing) {
                 return;
             }
-           
+            
             // Current position of mouse
-            currX = event.screenX;
-            currY = event.screenY;
+            currX = event.screenX - canvasBounds.left;
+            currY = event.screenY - canvasBounds.top;
             prevX = currX - event.movementX;
             prevY = currY - event.movementY;
             console.log('Position: ( ' + currX + ',' + currY + ')');
