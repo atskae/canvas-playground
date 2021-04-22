@@ -2,8 +2,9 @@ function resizeCanvas() {
     // Resize the canvas to the same size as
     // the browser window
     const canvas = document.getElementById("canvas");
-    canvas.height = Math.floor(window.innerHeight * 0.75);
-    canvas.width = Math.floor(window.innerWidth * 0.75);
+    canvas_size_multiplier = 0.75
+    canvas.height = Math.floor(window.innerHeight * canvas_size_multiplier);
+    canvas.width = Math.floor(window.innerWidth * canvas_size_multiplier);
     console.log('Canvas resized to ' + canvas.width + ' by ' + canvas.height);
 }
 
@@ -46,13 +47,19 @@ function draw() {
             }
             
             // Current position of mouse
-            currX = event.screenX - canvasBounds.left;
-            currY = event.screenY - canvasBounds.top;
+            currX = event.clientX - canvas.offsetLeft;
+            currY = event.clientY - canvas.offsetTop;
+            
             prevX = currX - event.movementX;
             prevY = currY - event.movementY;
             console.log('Position: ( ' + currX + ',' + currY + ')');
             console.log('PrevPosition: ( ' + prevX + ',' + prevY + ')');
-            
+           
+            // Set up line style
+            ctx.lineCap = "round";
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "#83dec1"; // mint color
+
             // Draw a line from previous position
             // to the current position
             ctx.beginPath();
