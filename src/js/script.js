@@ -1,11 +1,23 @@
-function resizeCanvas() {
+function resizeCanvas(event) {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext('2d');
+
+    // Redraw the image (otherwise disappears)
+    // Reize the previous canvas to match the new size
+    prevCanvas.width = canvas.width;
+    prevCanvas.height = canvas.height;
+    // Save the image in the current canvas
+    prevCtx.drawImage(canvas, 0, 0);
+    
     // Resize the canvas to the same size as
     // the browser window
-    const canvas = document.getElementById("canvas");
     canvas_size_multiplier = 0.75
     canvas.height = Math.floor(window.innerHeight * canvas_size_multiplier);
     canvas.width = Math.floor(window.innerWidth * canvas_size_multiplier);
     console.log('Canvas resized to ' + canvas.width + ' by ' + canvas.height);
+
+    // Redraw the image to resized canvas
+    ctx.drawImage(prevCanvas, 0, 0);
 }
 
 function draw() {
@@ -33,6 +45,7 @@ function draw() {
         function turnOnDraw(event) {
             allowDrawing = true;
             console.log('allowDrawing=' + allowDrawing)
+            startDraw(event); // allows drawing dots
         }
 
         function turnOffDraw(event) {
@@ -88,3 +101,8 @@ function draw() {
 
 // On browser resize, resize the canvas
 window.addEventListener("resize", resizeCanvas);
+
+// Save a copy of the previous canvas contents.
+// On resize, we re-load this canvas and save the newest copy.
+var prevCanvas = document.createElement('canvas');
+var prevCtx = prevCanvas.getContext('2d');
