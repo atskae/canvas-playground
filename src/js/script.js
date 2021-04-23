@@ -1,3 +1,8 @@
+/*
+    Global Variables
+*/
+const mintColor = "#83dec1";
+
 function savePrevCanvas(event) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext('2d');
@@ -66,7 +71,7 @@ function draw() {
             // Set up line style
             ctx.lineCap = "round";
             ctx.lineWidth = 10;
-            ctx.strokeStyle = "#83dec1"; // mint color
+            ctx.strokeStyle = mintColor;
 
             // Draw a line from previous position
             // to the current position
@@ -121,11 +126,15 @@ printSize(appWindow);
 // Set toolbox size
 const toolbox = document.getElementById("toolbox");
 toolbox.height = Math.floor(appWindow.height);
-toolbox.width = Math.floor(window.innerWidth * 0.25);
+toolbox.width = Math.floor(appWindow.width * 0.1);
 printSize(toolbox);
 
 // Set canvas size
 const canvas = document.getElementById("canvas");
 canvas.height = Math.floor(appWindow.height);
-canvas.width = Math.floor(window.innerWidth * 0.75);
+canvas.width = Math.floor(appWindow.width * 0.9);
 printSize(canvas);
+
+// Setup currentColor
+const currentColor = document.getElementById("currentColor");
+currentColor.setAttribute("style", "fill: " + mintColor);
