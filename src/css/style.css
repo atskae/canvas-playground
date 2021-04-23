@@ -6,6 +6,17 @@
     text-align: center;
 }
 
+#app {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+#toolbox {
+    border: 1px solid gray;
+    margin-right: 1%;
+}
+
 #canvas {
     border: 1px solid black;
 }

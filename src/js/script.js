@@ -1,4 +1,4 @@
-function resizeCanvas(event) {
+function savePrevCanvas(event) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext('2d');
 
@@ -11,10 +11,10 @@ function resizeCanvas(event) {
     
     // Resize the canvas to the same size as
     // the browser window
-    canvas_size_multiplier = 0.75
-    canvas.height = Math.floor(window.innerHeight * canvas_size_multiplier);
-    canvas.width = Math.floor(window.innerWidth * canvas_size_multiplier);
-    console.log('Canvas resized to ' + canvas.width + ' by ' + canvas.height);
+    //canvas_size_multiplier = 0.75
+    //canvas.height = Math.floor(window.innerHeight * canvas_size_multiplier);
+    //canvas.width = Math.floor(window.innerWidth * canvas_size_multiplier);
+    //console.log('Canvas resized to ' + canvas.width + ' by ' + canvas.height);
 
     // Redraw the image to resized canvas
     ctx.drawImage(prevCanvas, 0, 0);
@@ -28,17 +28,12 @@ function draw() {
     if (canvas.getContext) {
         msg.innerHTML = "Canvas is supported! :)";
         // Resize canvas to browser
-        resizeCanvas();
+        savePrevCanvas();
 
         // Select the 2D context
         const ctx = canvas.getContext("2d");
         console.log(ctx);
         
-        // Spacing relative to the parent viewport
-        const canvasBounds = canvas.getBoundingClientRect();
-        console.log('Canvas bounds');
-        console.log(canvasBounds);
-
         // Setup event listeners
         let allowDrawing = false;
 
@@ -96,13 +91,41 @@ function draw() {
 }
 
 /*
+    Utility functions
+*/
+
+function printSize(obj) {
+    console.log(obj.id + ' size: ' + obj.width + ' by ' + obj.height);
+}
+
+/*
     Event Listeners
 */
 
-// On browser resize, resize the canvas
-window.addEventListener("resize", resizeCanvas);
+// On browser resize, canvas will remove it contents.
+// This function will keep the current image
+window.addEventListener("resize", savePrevCanvas);
 
 // Save a copy of the previous canvas contents.
 // On resize, we re-load this canvas and save the newest copy.
 var prevCanvas = document.createElement('canvas');
 var prevCtx = prevCanvas.getContext('2d');
+
+// Constrain app window so that the toolbox and canvas
+// sizes can be relative to the app window size
+const appWindow = document.getElementById("app");
+appWindow.height = Math.floor(window.innerHeight* 0.75);
+appWindow.width = Math.floor(window.innerWidth * 0.75);
+printSize(appWindow);
+
+// Set toolbox size
+const toolbox = document.getElementById("toolbox");
+toolbox.height = Math.floor(appWindow.height);
+toolbox.width = Math.floor(window.innerWidth * 0.25);
+printSize(toolbox);
+
+// Set canvas size
+const canvas = document.getElementById("canvas");
+canvas.height = Math.floor(appWindow.height);
+canvas.width = Math.floor(window.innerWidth * 0.75);
+printSize(canvas);
