@@ -1,12 +1,16 @@
 /*
     Global Variables
+    - "const" means a constant reference, not a constant value
 */
-const mintColor = "#83dec1";
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const defaultColor = "#83dec1"; // weird mint color
+const currentColor = document.getElementById("currentColor");
 
+/*
+    Functions
+*/
 function savePrevCanvas(event) {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext('2d');
-
     // Redraw the image (otherwise disappears)
     // Reize the previous canvas to match the new size
     prevCanvas.width = canvas.width;
@@ -27,7 +31,6 @@ function savePrevCanvas(event) {
 
 function draw() {
     // Constant reference to a value, not a const value!
-    const canvas = document.getElementById("canvas");
     const msg = document.getElementById("message");
 
     if (canvas.getContext) {
@@ -36,7 +39,6 @@ function draw() {
         savePrevCanvas();
 
         // Select the 2D context
-        const ctx = canvas.getContext("2d");
         console.log(ctx);
         
         // Setup event listeners
@@ -71,7 +73,7 @@ function draw() {
             // Set up line style
             ctx.lineCap = "round";
             ctx.lineWidth = 10;
-            ctx.strokeStyle = mintColor;
+            ctx.strokeStyle = defaultColor;
 
             // Draw a line from previous position
             // to the current position
@@ -111,6 +113,25 @@ function printSize(obj) {
 // This function will keep the current image
 window.addEventListener("resize", savePrevCanvas);
 
+document.getElementById("pickRandColor").onclick = function() {
+    console.log('Current color: ' + currentColor.style.fill);
+    var colors = [];
+    for (var i=0; i<3; i++) {
+        // Math.random() returns a float between 0 and 1
+        colors[i] = Math.floor(Math.random() * 256);
+    }
+    
+    // ew.
+    var newColor = 'rgb(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ')';
+    console.log(newColor);
+    currentColor.style.fill = newColor;
+    console.log('New color: ' + currentColor.style.fill);
+}
+
+/*
+    On-load setup
+*/
+
 // Save a copy of the previous canvas contents.
 // On resize, we re-load this canvas and save the newest copy.
 var prevCanvas = document.createElement('canvas');
@@ -130,11 +151,9 @@ toolbox.width = Math.floor(appWindow.width * 0.1);
 printSize(toolbox);
 
 // Set canvas size
-const canvas = document.getElementById("canvas");
 canvas.height = Math.floor(appWindow.height);
 canvas.width = Math.floor(appWindow.width * 0.9);
 printSize(canvas);
 
 // Setup currentColor
-const currentColor = document.getElementById("currentColor");
-currentColor.setAttribute("style", "fill: " + mintColor);
+currentColor.setAttribute("style", "fill: " + defaultColor);
