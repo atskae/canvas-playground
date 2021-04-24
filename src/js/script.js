@@ -6,6 +6,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const defaultColor = "#83dec1"; // weird mint color
 const currentColor = document.getElementById("currentColor");
+const colorDeltas = [1, 1, 1];
 
 /*
     Functions
@@ -132,17 +133,41 @@ document.getElementById("pickRandColor").onclick = function() {
     
 }
 
+// Change color delta direction every 30 seconds
+window.setInterval(function(){
+    for(var i=0; i<3; i++) {
+        var delta = randInt(2);
+        if(delta == 0) {
+            colorDeltas[i] = -1;
+        } else {
+            colorDeltas[i] = 1;
+        }
+    }
+}, 10000);
+
 // Gradually change the color, subtle-y
 window.setInterval(function() {
-    // Pick a random channel (red, green, or blue)
-    var channel = randInt(3);
     var rgbPattern = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;     
     colors = rgbPattern.exec(currentColor.style.fill);
     colors.shift(); // remove first element in list
    
-    // Update a random channel
-    colors[channel]++;
-
+    // Update a random color channel (red, green, or blue)
+    var channel = randInt(3);
+    console.log('Channel: ' + channel);
+    console.log('Channel value before: ' + colors[channel]);
+    // This ensures that "color jumps" don't occur at 0 and 256
+    if(colors[channel] == 0) {
+        colors[channel]++;
+        colorDeltas[channel] = 1;
+    } else if(colors[channel] == 256) {
+        colors[channel]--;
+        colorDeltas[channel] = -1;
+    } else {
+        // Decrease the color channel by either 1 or -1
+        console.log('Color delta: ' + colorDeltas[channel]);
+        colors[channel] = (parseInt(colors[channel]) + colorDeltas[channel]);
+    }
+    console.log('Channel value: ' + colors[channel]);
     var newColor = 'rgb(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ')';
     updateColor(newColor);
 
