@@ -7,14 +7,12 @@
 }
 
 #app {
-    border: 1px solid lightgray;
     margin: auto;
     display: flex;
     justify-content: center;
 }
 
 #toolbox {
-    border: 1px solid gray;
     margin-right: 1%;
 }
 

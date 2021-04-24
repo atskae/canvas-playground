@@ -23,14 +23,14 @@ function randInt(max) {
 function updateColor(newColor) {
     // Updates the circle thing and the stroke color
     
-    console.log('Current color: ' + currentColor.style.fill);
-    console.log(newColor);
+    //console.log('Current color: ' + currentColor.style.fill);
+    //console.log(newColor);
     currentColor.style.fill = newColor;
-    console.log('New color: ' + currentColor.style.fill);
+    //console.log('New color: ' + currentColor.style.fill);
     
     // Change the stroke color
     ctx.strokeStyle = newColor;
-    console.log('ctx.strokeStyle: ' + ctx.strokeStyle);
+    //console.log('ctx.strokeStyle: ' + ctx.strokeStyle);
 }
 
 function savePrevCanvas(event) {
@@ -143,6 +143,7 @@ window.setInterval(function(){
             colorDeltas[i] = 1;
         }
     }
+    //console.log('colorDeltas: ' + colorDeltas);
 }, 10000);
 
 // Gradually change the color, subtle-y
@@ -151,24 +152,28 @@ window.setInterval(function() {
     colors = rgbPattern.exec(currentColor.style.fill);
     colors.shift(); // remove first element in list
    
-    // Update a random color channel (red, green, or blue)
-    var channel = randInt(3);
-    console.log('Channel: ' + channel);
-    console.log('Channel value before: ' + colors[channel]);
+    // Update all color channel (red, green, or blue)
+    //console.log('Channel: ' + channel);
+    //console.log('Channel value before: ' + colors[channel]);
     // This ensures that "color jumps" don't occur at 0 and 256
-    if(colors[channel] == 0) {
-        colors[channel]++;
-        colorDeltas[channel] = 1;
-    } else if(colors[channel] == 256) {
-        colors[channel]--;
-        colorDeltas[channel] = -1;
-    } else {
-        // Decrease the color channel by either 1 or -1
-        console.log('Color delta: ' + colorDeltas[channel]);
-        colors[channel] = (parseInt(colors[channel]) + colorDeltas[channel]);
+    for(var channel=0; channel<3; channel++) {
+        // Convert string to integer
+        colors[channel] = parseInt(colors[channel]);
+        if(colors[channel] == 0) {
+            colors[channel]++;
+            colorDeltas[channel] = 1;
+        } else if(colors[channel] == 255) {
+            colors[channel]--;
+            colorDeltas[channel] = -1;
+        } else {
+            // Decrease the color channel by either 1 or -1
+            colors[channel] = colors[channel] + colorDeltas[channel];
+        }
     }
-    console.log('Channel value: ' + colors[channel]);
+
     var newColor = 'rgb(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ')';
+    //console.log('newColor' + newColor);
+    //console.log('Color deltas: ' + colorDeltas);
     updateColor(newColor);
 
 }, 100);
