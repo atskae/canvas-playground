@@ -175,7 +175,7 @@ window.setInterval(function() {
     //console.log('Color deltas: ' + colorDeltas);
     updateColor(newColor);
 
-}, 100);
+}, 500);
 
 /*
     On-load setup
