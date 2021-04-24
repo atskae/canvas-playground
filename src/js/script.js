@@ -6,7 +6,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const defaultColor = "#83dec1"; // weird mint color
 const currentColor = document.getElementById("currentColor");
-const colorDeltas = [1, 1, 1];
+const colorDeltas = [-1, 1, -1];
 
 /*
     Functions
