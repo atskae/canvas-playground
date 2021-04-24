@@ -57,7 +57,6 @@ function draw() {
     const msg = document.getElementById("message");
 
     if (canvas.getContext) {
-        msg.innerHTML = "Canvas is supported! :)";
         // Save current drawing
         savePrevCanvas();
 
