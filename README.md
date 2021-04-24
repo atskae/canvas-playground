@@ -1,4 +1,4 @@
-# Canvas Tutorial
+# Canvas Playground
 Learning about HTML5 Canvas 🎨 because I want to know how drawing apps like [ChickenPaint](https://github.com/thenickdude/chickenpaint) works.
 
 ## How to Run
