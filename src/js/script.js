@@ -35,24 +35,21 @@ function draw() {
 
     if (canvas.getContext) {
         msg.innerHTML = "Canvas is supported! :)";
-        // Resize canvas to browser
+        // Save current drawing
         savePrevCanvas();
 
-        // Select the 2D context
-        console.log(ctx);
-        
         // Setup event listeners
         let allowDrawing = false;
 
         function turnOnDraw(event) {
             allowDrawing = true;
-            console.log('allowDrawing=' + allowDrawing)
+            //console.log('allowDrawing=' + allowDrawing)
             startDraw(event); // allows drawing dots
         }
 
         function turnOffDraw(event) {
             allowDrawing = false;
-            console.log('allowDrawing=' + allowDrawing)
+            //console.log('allowDrawing=' + allowDrawing)
         }
 
         function startDraw(event) {
@@ -67,13 +64,12 @@ function draw() {
             
             prevX = currX - event.movementX;
             prevY = currY - event.movementY;
-            console.log('Position: ( ' + currX + ',' + currY + ')');
-            console.log('PrevPosition: ( ' + prevX + ',' + prevY + ')');
+            //console.log('Position: ( ' + currX + ',' + currY + ')');
+            //console.log('PrevPosition: ( ' + prevX + ',' + prevY + ')');
            
             // Set up line style
             ctx.lineCap = "round";
             ctx.lineWidth = 10;
-            ctx.strokeStyle = defaultColor;
 
             // Draw a line from previous position
             // to the current position
@@ -115,17 +111,17 @@ window.addEventListener("resize", savePrevCanvas);
 
 document.getElementById("pickRandColor").onclick = function() {
     console.log('Current color: ' + currentColor.style.fill);
-    var colors = [];
-    for (var i=0; i<3; i++) {
-        // Math.random() returns a float between 0 and 1
-        colors[i] = Math.floor(Math.random() * 256);
-    }
-    
-    // ew.
-    var newColor = 'rgb(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ')';
+    // Change color of the tiny circle up top
+    // Maximum value in color hex format: 2^24-1 = 16777215 
+    // Haven't dealt with this kind of math since 320 笑
+    var newColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
     console.log(newColor);
     currentColor.style.fill = newColor;
     console.log('New color: ' + currentColor.style.fill);
+    
+    // Change the stroke color
+    ctx.strokeStyle = newColor;
+    console.log('ctx.strokeStyle: ' + ctx.strokeStyle);
 }
 
 /*
@@ -142,18 +138,19 @@ var prevCtx = prevCanvas.getContext('2d');
 const appWindow = document.getElementById("app");
 appWindow.height = Math.floor(window.innerHeight* 0.75);
 appWindow.width = Math.floor(window.innerWidth * 0.75);
-printSize(appWindow);
+//printSize(appWindow);
 
 // Set toolbox size
 const toolbox = document.getElementById("toolbox");
 toolbox.height = Math.floor(appWindow.height);
 toolbox.width = Math.floor(appWindow.width * 0.1);
-printSize(toolbox);
+//printSize(toolbox);
 
 // Set canvas size
 canvas.height = Math.floor(appWindow.height);
 canvas.width = Math.floor(appWindow.width * 0.9);
-printSize(canvas);
+//printSize(canvas);
 
 // Setup currentColor
 currentColor.setAttribute("style", "fill: " + defaultColor);
+ctx.strokeStyle = defaultColor;
