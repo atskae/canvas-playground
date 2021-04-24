@@ -136,10 +136,17 @@ document.getElementById("pickRandColor").onclick = function() {
 window.setInterval(function() {
     // Pick a random channel (red, green, or blue)
     var channel = randInt(3);
-    var hexPattern = RegExp("^#[a-fA-F0-9]{6}");
-    //colors = 
+    var rgbPattern = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;     
+    colors = rgbPattern.exec(currentColor.style.fill);
+    colors.shift(); // remove first element in list
+   
+    // Update a random channel
+    colors[channel]++;
 
-}, 1000);
+    var newColor = 'rgb(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ')';
+    updateColor(newColor);
+
+}, 100);
 
 /*
     On-load setup
