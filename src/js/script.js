@@ -10,6 +10,28 @@ const currentColor = document.getElementById("currentColor");
 /*
     Functions
 */
+
+function printSize(obj) {
+    console.log(obj.id + ' size: ' + obj.width + ' by ' + obj.height);
+}
+
+function randInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
+function updateColor(newColor) {
+    // Updates the circle thing and the stroke color
+    
+    console.log('Current color: ' + currentColor.style.fill);
+    console.log(newColor);
+    currentColor.style.fill = newColor;
+    console.log('New color: ' + currentColor.style.fill);
+    
+    // Change the stroke color
+    ctx.strokeStyle = newColor;
+    console.log('ctx.strokeStyle: ' + ctx.strokeStyle);
+}
+
 function savePrevCanvas(event) {
     // Redraw the image (otherwise disappears)
     // Reize the previous canvas to match the new size
@@ -94,14 +116,6 @@ function draw() {
 }
 
 /*
-    Utility functions
-*/
-
-function printSize(obj) {
-    console.log(obj.id + ' size: ' + obj.width + ' by ' + obj.height);
-}
-
-/*
     Event Listeners
 */
 
@@ -110,19 +124,22 @@ function printSize(obj) {
 window.addEventListener("resize", savePrevCanvas);
 
 document.getElementById("pickRandColor").onclick = function() {
-    console.log('Current color: ' + currentColor.style.fill);
     // Change color of the tiny circle up top
     // Maximum value in color hex format: 2^24-1 = 16777215 
     // Haven't dealt with this kind of math since 320 笑
-    var newColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-    console.log(newColor);
-    currentColor.style.fill = newColor;
-    console.log('New color: ' + currentColor.style.fill);
+    var newColor = '#' + randInt(16777215).toString(16);
+    updateColor(newColor);
     
-    // Change the stroke color
-    ctx.strokeStyle = newColor;
-    console.log('ctx.strokeStyle: ' + ctx.strokeStyle);
 }
+
+// Gradually change the color, subtle-y
+window.setInterval(function() {
+    // Pick a random channel (red, green, or blue)
+    var channel = randInt(3);
+    var hexPattern = RegExp("^#[a-fA-F0-9]{6}");
+    //colors = 
+
+}, 1000);
 
 /*
     On-load setup
